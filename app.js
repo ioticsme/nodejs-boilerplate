@@ -5,7 +5,7 @@ require('dotenv').config()
 const sequelize = require('./db/dbconnection')
 
 // General Middlewares
-app.use(express.json({ limit: '10mb', type: 'application/vnd.api+json' }))
+app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ limit: '10mb', extended: true }))
 app.all('*', function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
