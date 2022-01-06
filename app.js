@@ -24,9 +24,13 @@ app.get('/health', async (req, res) => {
     } catch (error) {
         dbSuccess = false
     }
+
+    const appKey = process.env.APP_KEY === undefined ? 'APP Key is missing!!!' : 'Success';
+    
     res.status(200).json({
         'DB Connected': dbSuccess,
         'Health': 'OK',
+        'App Key': appKey,
     })
 })
 
