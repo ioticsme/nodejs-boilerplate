@@ -1,15 +1,16 @@
 version: '3.8'
 services:
   api:
-    container_name: nodejs_boilerplate
+    container_name: widget-api-v2-catalogue
     build:
       context: ./
+      dockerfile: Dockerfile.dev
       target: dev
     volumes:
-      - .:/src
+      - .:/app
     command: sh -c "npm i && npm run dev"
     ports:
-      - "4100:3000"
+      - "6003:8080"
     environment:
       NODE_ENV: development
       DEBUG: nodejs-docker-express:*

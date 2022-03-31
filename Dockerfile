@@ -1,19 +1,25 @@
-FROM node:14.17.0-alpine as base
+FROM node:17-alpine3.14
 
-WORKDIR /src
-COPY . .
+# Create app directory
+WORKDIR /app
+
+# Set permision for node
+RUN chown node:node -R /app
+
+# switch as normal user
+USER node
+
+# Install app dependencies
 COPY package*.json ./
-COPY package-lock.json ./
-EXPOSE 3000
 
-FROM base as production
-ENV NODE_ENV=production
+# Install dependencies 
 RUN npm ci --only=production
-CMD ["npm", "start"]
 
-FROM base as dev
-ENV NODE_ENV=development
-RUN npm install
-# RUN npm install -g nodemon
-# CMD sh -c 'npm install && npm run dev'
-CMD ["npm", "run", "dev"]
+# Bundle app source
+COPY --chown=node:node . .
+
+# expose port
+EXPOSE 8080
+
+# Start app
+CMD [ "node", "app.js" ]
