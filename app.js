@@ -2,7 +2,11 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 
+// DB Connection
 const sequelize = require('./db/dbconnection')
+
+// Eloquent Relations
+require('./db/associations')
 
 // General Middlewares
 app.use(express.json({ limit: '10mb' }))
@@ -14,6 +18,9 @@ app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, x-access-token");
     next();
 });
+
+// Template Engine
+app.set('view engine', 'pug')
 
 // Application health routes
 app.get('/health', async (req, res) => {
@@ -35,10 +42,12 @@ app.get('/health', async (req, res) => {
 })
 
 // Importing Route file
-const publicRoutes = require('./routes/public.routes')
+const webRoutes = require('./routes/web.routes')
+const apiRoutes = require('./routes/api.routes')
 
 // Pointing routes
-app.use('/', publicRoutes)
+app.use('/', webRoutes)
+app.use('/api', apiRoutes)
 
 // Starting Server
 const port = process.env.PORT || 3000

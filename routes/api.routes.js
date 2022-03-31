@@ -2,8 +2,8 @@ const express = require('express')
 const routes = express.Router()
 
 // Importing controllers
-const publicController = require('../controllers/public.controller')
+const apiController = require('../controllers/api.controller')
 
-routes.get('/home', publicController.home)
+routes.get('/', apiController.home)
 
 module.exports = routes
